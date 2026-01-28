@@ -1,0 +1,53 @@
+
+<form id="listing-form" class="max-w-lg mx-auto bg-white p-6 rounded shadow">
+    <h2 class="text-2xl mb-4">Add Your Produce</h2>
+    <input type="text" id="title" placeholder="Product Name (e.g. Fresh Eggs)" class="w-full p-2 border mb-4" required>
+    <textarea id="description" placeholder="Describe Your Product" class="w-full p-2 border mb-4" required></textarea>
+    <input type="number" id="price" placeholder="Price (ZAR)" class="w-full p-2 border mb-4" required>
+    <input type="text" id="location" placeholder="Location (e.g. Nondweni, KwaZulu-Natal)" class="w-full p-2 border mb-4" required>
+    <input type="file" id="photo" accept="image/*" class="mb-4" required>
+    <button type="submit" class="bg-green-500 text-white px-6 py-2 rounded">Submit Listing</button>
+</form>
+
+<script type="module">
+    import { db, collection, addDoc} from './firebase-config.js';
+
+    document.getElementById('listing-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const title = document.getElementById('title').value;
+        const description = document.getElementById('description').value;
+        const price = parseFloat(document.getElementById('price').value);
+        const location = document.getElementById('location').value;
+        const photoInput = document.getElementById('photo');
+        const photoFile = photoInput.files[0];
+
+        // Simple validation
+        if (!title || !description || isNaN(price) || !location || !photoFile) {
+            alert('Please fill in all fields and select a photo.');
+            return;
+        }
+
+        try {
+            // Here you would typically upload the photo to a storage service and get the URL
+            // For simplicity, we'll just use a placeholder URL
+            const photoURL = 'https://via.placeholder.com/150';
+
+            // Add listing to Firestore
+            await addDoc(collection(db, 'listings'), {
+                title,
+                description,
+                price,
+                location,
+                photoURL,
+                createdAt: new Date()
+            });
+
+            alert('Listing submitted successfully!');
+            document.getElementById('listing-form').reset();
+        } catch (error) {
+            console.error('Error adding document: ', error);
+            alert('Failed to submit listing. Please try again.');
+        }
+    });
+</script>   

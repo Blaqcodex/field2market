@@ -1,58 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Field2Market - Connecting Farmers to Markets</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-    <link rel="stylesheet" href="css/style.css">                                                                           
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Listing — Field2Market</title>
+  <link href="https:                                                                                  
   <style>
-    .form-input {
-    
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #d1d5db;
-    border-radius: 0.25rem;
-}
-form.input:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px #38bd;
-}
-
+    .form-input { @apply w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-green-400; }
   </style>
   <script type="importmap">
     {
       "imports": {
         "firebase/app": "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js",
-        "firebase/firestore": "https:                                                         
+        "firebase/firestore": "https:                                                          
         "firebase/storage": "https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js"
       }
     }
   </script>
 </head>
 <body class="bg-gray-50">
- <body class="bg-gray-50">
-    <header class="bg-green-600 text-white p-4">
-        <div class="container mx-auto flex justify-between">
-            <h1 class="text-2xl font-bold">Field2Market<h1>
-            <nav>
-                <a href="index.html" class="mr-4">Home</a>
-                <a href="listings.html" class="mr-4">Browse Produce</a>
-                <a href="add-listings.html" class="bg-yellow-400 text-black px-3 py-1 rounded">+ Add Listing</a>
-            </nav>
-        </div>
-    </header>
-    <main class="container mx-auto mt-8">
-        <section class="text-center mb-12">
-            <h2 class="text-3xl font-semibold">Fresh From Your Village, To Your Table</h2>
-            <p class="text-gray-600 mt-2">No middlemen. Fair prices. Real Farmers.</p>
-        </section>
+  <header class="bg-green-600 text-white p-4">
+    <div class="container mx-auto">
+      <h1 class="text-2xl font-bold">Field2Market — Add Listing</h1>
+    </div>
   </header>
 
   <main class="container mx-auto mt-8 max-w-lg">
     <form id="listing-form" class="bg-white p-6 rounded shadow">
       <h2 class="text-xl mb-4">Sell Your Produce</h2>
-     
+      
       <label class="block mb-2">Product Name</label>
       <input type="text" id="title" placeholder="e.g., Fresh Tomatoes" class="form-input" required>
 
@@ -92,7 +68,7 @@ form.input:focus {
 
     document.getElementById('listing-form').addEventListener('submit', async (e) => {
       e.preventDefault();
-     
+      
       const title = document.getElementById('title').value;
       const description = document.getElementById('description').value;
       const price = parseFloat(document.getElementById('price').value);
@@ -101,22 +77,5 @@ form.input:focus {
 
       // Upload photo to Firebase Storage
       const storageRef = ref(storage, `products/${photoFile.name}`);
-      await uploadBytes(storageRef, photoFile);
-      const photoURL = await getDownloadURL(storageRef);
+      await uploadBytes(storageRef,
 
-      // Save listing to Firestore
-      await addDoc(collection(db, "listings"), {
-        title,
-        description,
-        price,
-        location,
-        imageUrl: photoURL,
-        createdAt: new Date()
-      });
-
-      alert("Listing posted successfully!");
-      window.location.href = "listings.html";
-    });
-  </script>
-</body>
-</html>
