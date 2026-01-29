@@ -41,9 +41,7 @@
 <!-- HERO -->
 <section class="bg-white py-16">
   <div class="max-w-7xl mx-auto px-6 text-center">
-    <h2 class="text-4xl font-extrabold mb-4">
-      Browse Fresh Produce
-    </h2>
+    <h2 class="text-4xl font-extrabold mb-4">Browse Fresh Produce</h2>
     <p class="text-gray-600">
       Filter by farmer, category, or location — deal directly with producers.
     </p>
@@ -54,7 +52,9 @@
 <section class="max-w-7xl mx-auto px-6 mb-10">
   <div class="grid grid-cols-1 md:grid-cols-4 gap-4 bg-white p-6 rounded shadow">
 
-    <input id="searchLocation" type="text"
+    <input
+      id="searchLocation"
+      type="text"
       placeholder="Search by location..."
       class="border rounded px-4 py-2 w-full"/>
 
@@ -70,7 +70,8 @@
       <option value="Meat">Meat</option>
     </select>
 
-    <button onclick="resetFilters()"
+    <button
+      onclick="resetFilters()"
       class="bg-primary text-white rounded px-4 py-2 hover:bg-green-700">
       Reset Filters
     </button>
@@ -85,14 +86,19 @@
 
 <!-- SCRIPT -->
 <script>
+/* Load listings */
+const storedListings =
+  JSON.parse(localStorage.getItem("field2marketListings")) || [];
+
 const listingsData = [
+  ...storedListings,
   {
     title: "Fresh Tomatoes",
     farmer: "Baba Jobe Sthole",
     category: "Vegetables",
     price: "R50 / 5kg",
     location: "Nondweni, KwaZulu-Natal",
-    phone: "27710000001",
+    phone: "0641004301",
     image: "img/tomato.jpg"
   },
   {
@@ -101,7 +107,7 @@ const listingsData = [
     category: "Vegetables",
     price: "R15 / 2kg",
     location: "Nondweni, KwaZulu-Natal",
-    phone: "27710000002",
+    phone: "0844571698",
     image: "img/onion.jpg"
   },
   {
@@ -110,7 +116,7 @@ const listingsData = [
     category: "Vegetables",
     price: "R10 / 1kg",
     location: "Nondweni, KwaZulu-Natal",
-    phone: "27710000002",
+    phone: "0844571698",
     image: "img/potato.jpg"
   },
   {
@@ -119,7 +125,7 @@ const listingsData = [
     category: "Grains",
     price: "R10 each",
     location: "Nqutu, KwaZulu-Natal",
-    phone: "27710000003",
+    phone: "0764189291",
     image: "img/Crop.jpg"
   },
   {
@@ -128,7 +134,7 @@ const listingsData = [
     category: "Vegetables",
     price: "R3 each",
     location: "Nqutu, KwaZulu-Natal",
-    phone: "27710000004",
+    phone: "0823665854",
     image: "img/pepper.jpg"
   }
 ];
@@ -146,22 +152,30 @@ const searchLocation = document.getElementById("searchLocation");
   farmerFilter.appendChild(opt);
 });
 
-/* Render cards */
+/* Render listings */
 function renderListings(data) {
   listingsEl.innerHTML = "";
+
   if (!data.length) {
-    listingsEl.innerHTML = `<p class="col-span-full text-center text-gray-500">No results found.</p>`;
+    listingsEl.innerHTML = `
+      <p class="col-span-full text-center text-gray-500">
+        No results found.
+      </p>`;
     return;
   }
 
   data.forEach(item => {
     listingsEl.innerHTML += `
       <div class="bg-white rounded shadow hover:shadow-lg transition">
-        <img src="${item.image}" class="h-48 w-full object-cover rounded-t">
+        <img src="${item.image}"
+             class="h-48 w-full object-cover rounded-t"
+             alt="${item.title}">
+
         <div class="p-4">
           <h3 class="text-xl font-bold">${item.title}</h3>
 
-          <button onclick="filterByFarmer('${item.farmer}')"
+          <button
+            onclick="filterByFarmer('${item.farmer}')"
             class="text-primary font-semibold hover:underline">
             ${item.farmer}
           </button>
@@ -170,23 +184,25 @@ function renderListings(data) {
           <p class="text-green-600 font-bold mt-2">${item.price}</p>
 
           <div class="mt-4 flex gap-2">
-            <a href="https://wa.me/${item.phone}"
+            <a
+              href="https://wa.me/27${item.phone.slice(1)}"
               target="_blank"
               class="flex-1 bg-primary text-white text-center py-2 rounded">
               WhatsApp
             </a>
-            <button onclick="copyNumber('${item.phone}')"
+
+            <button
+              onclick="copyNumber('${item.phone}')"
               class="flex-1 border border-primary text-primary py-2 rounded">
-              Copy #
+              Copy Number
             </button>
           </div>
         </div>
-      </div>
-    `;
+      </div>`;
   });
 }
 
-/* Filtering logic */
+/* Filters */
 function applyFilters() {
   const farmer = farmerFilter.value;
   const category = categoryFilter.value;
@@ -228,4 +244,3 @@ renderListings(listingsData);
 
 </body>
 </html>
-

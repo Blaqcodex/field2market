@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login | Field2Market</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#15803d',
+            accent: '#facc15'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+<!-- HEADER -->
+<header class="bg-primary text-white shadow">
+  <div class="max-w-7xl mx-auto px-6 py-4">
+    <h1 class="text-2xl font-bold">Field2Market</h1>
+  </div>
+</header>
+
+<!-- LOGIN CARD -->
+<main class="flex-grow flex items-center justify-center px-6">
+  <div class="bg-white shadow rounded-lg p-8 w-full max-w-md">
+
+    <h2 class="text-3xl font-extrabold text-center mb-2">
+      Welcome 🌱
+    </h2>
+    <p class="text-center text-gray-600 mb-6">
+      Login or create an account to continue
+    </p>
+
+    <form id="authForm" class="space-y-4">
+      <input
+        id="username"
+        required
+        placeholder="Username"
+        class="w-full border rounded px-4 py-2"/>
+
+      <input
+        id="password"
+        required
+        type="password"
+        placeholder="Password"
+        class="w-full border rounded px-4 py-2"/>
+
+      <button
+        type="submit"
+        class="w-full bg-primary text-white py-3 rounded font-bold hover:bg-green-700 transition">
+        Enter Field2Market
+      </button>
+    </form>
+
+    <p class="text-center text-sm text-gray-500 mt-4">
+      New users are automatically registered ✨
+    </p>
+
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-gray-900 text-gray-400 py-6 text-center text-sm">
+  © 2026 Field2Market · Empowering farmers, feeding communities
+</footer>
+
+<script>
+document.getElementById("authForm").addEventListener("submit", e => {
+  e.preventDefault();
+
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  if (!username || !password) {
+    alert("Please fill in all fields");
+    return;
+  }
+
+  // Get all users
+  const users = JSON.parse(localStorage.getItem("field2marketUsers")) || {};
+
+  // If user does not exist → CREATE ACCOUNT
+  if (!users[username]) {
+    users[username] = password;
+    localStorage.setItem("field2marketUsers", JSON.stringify(users));
+  }
+
+  // If password incorrect
+  if (users[username] !== password) {
+    alert("❌ Incorrect password");
+    return;
+  }
+
+  // ✅ IMPORTANT: set CURRENT USER (used by browse & add listings)
+  localStorage.setItem(
+    "currentUser",
+    JSON.stringify({ username })
+  );
+
+  // Redirect to home
+  window.location.href = "home.html";
+});
+</script>
+
+</body>
+</html>
+
