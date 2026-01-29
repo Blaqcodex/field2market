@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Field2Market - Connecting Farmers to Markets</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .farmer-story {
+      background-color: #f7f7f7;
+      padding: 4rem 0;
+    }
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1s ease-in-out;
+    }
+    .farmer-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 1rem;
+    }
+    .farmer-img {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 2rem;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1s ease-in-out;
+    }
+    .text-content {
+      max-width: 600px;
+      text-align: center;
+    }
+    .story, .thoughts {
+      font-size: 1.2rem;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1s ease-in-out;
+    }
+    @media (min-width: 768px) {
+      .farmer-info {
+        flex-direction: row;
+        align-items: flex-start;
+      }
+      .farmer-img {
+        margin-right: 2rem;
+        margin-bottom: 0;
+      }
+      .text-content {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <header class="bg-green-600 text-white p-4">
+    <div class="container mx-auto flex justify-between">
+      <h1 class="text-2xl font-bold">Field2Market<h1>
+      <nav>
+        <a href="index.html" class="mr-4">Home</a>
+        <a href="listings.html" class="mr-4">Browse Produce</a>
+        <a href="add-listings.html" class="bg-yellow-400 text-black px-3 py-1 rounded">+ Add Listing</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container mx-auto mt-8">
+    <section class="text-center mb-12">
+      <h2 class="text-3xl font-semibold">Fresh From Your Village, To Your Table</h2>
+      <p class="text-gray-600 mt-2">No middlemen. Fair prices. Real Farmers.</p>
+    </section>
+    <section class="farmer-story">
+      <div class="container">
+        <h2 class="section-title">Meet Baba Sthole</h2>
+        <div class="farmer-info">
+          <img src="baba-sthole.jpg" alt="Baba Sthole" class="farmer-img">
+          <div class="text-content">
+            <p class="story">"I've been farming for over 20 years, and I've seen the struggles of being a small-scale farmer. But with Field2Market, I see a glimmer of hope. This platform allows me to connect directly with customers, get fair prices, and grow my business."</p>
+            <p class="thoughts">"I encourage all my fellow farmers to join Field2Market. Let's take control of our livelihoods and bring fresh produce to our communities. Together, we can make a difference."</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script>
+    const farmerStory = document.querySelector('.farmer-story');
+    const sectionTitle = document.querySelector('.section-title');
+    const farmerImg = document.querySelector('.farmer-img');
+    const storyText = document.querySelector('.story');
+    const thoughtsText = document.querySelector('.thoughts');
+
+    // Animate elements on scroll
+    const animateOnScroll = () => {
+      const elements = [sectionTitle, farmerImg, storyText, thoughtsText];
+      elements.forEach((element, index) => {
+        setTimeout(() => {
+          element.style.opacity = 1;
+          element.style.transform = 'translateY(0)';
+        }, 500 + (index * 300));
+      });
+    };
+
+    // Check if element is in viewport
+    const isInViewport = (element) => {
+      const rect = element.getBoundingClientRect();
+      return (
+        rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.bottom >= 0
+      );
+    };
+
+    // Add event listener to window
+    window.addEventListener('scroll', () => {
+      if (isInViewport(farmerStory)) {
+        animateOnScroll();
+        window.removeEventListener('scroll', animateOnScroll);
+      }
+    });
+  </script>
+</body>
+</html>

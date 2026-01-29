@@ -1,122 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Field2Market - Connecting Farmers to Markets</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-    <link rel="stylesheet" href="css/style.css">                                                                           
-  <style>
-    .form-input {
-    
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #d1d5db;
-    border-radius: 0.25rem;
-}
-form.input:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px #38bd;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Listing | Field2Market</title>
 
-  </style>
-  <script type="importmap">
-    {
-      "imports": {
-        "firebase/app": "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js",
-        "firebase/firestore": "https:                                                         
-        "firebase/storage": "https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js"
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#15803d',
+            accent: '#facc15'
+          }
+        }
       }
     }
   </script>
 </head>
-<body class="bg-gray-50">
- <body class="bg-gray-50">
-    <header class="bg-green-600 text-white p-4">
-        <div class="container mx-auto flex justify-between">
-            <h1 class="text-2xl font-bold">Field2Market<h1>
-            <nav>
-                <a href="index.html" class="mr-4">Home</a>
-                <a href="listings.html" class="mr-4">Browse Produce</a>
-                <a href="add-listings.html" class="bg-yellow-400 text-black px-3 py-1 rounded">+ Add Listing</a>
-            </nav>
-        </div>
-    </header>
-    <main class="container mx-auto mt-8">
-        <section class="text-center mb-12">
-            <h2 class="text-3xl font-semibold">Fresh From Your Village, To Your Table</h2>
-            <p class="text-gray-600 mt-2">No middlemen. Fair prices. Real Farmers.</p>
-        </section>
-  </header>
 
-  <main class="container mx-auto mt-8 max-w-lg">
-    <form id="listing-form" class="bg-white p-6 rounded shadow">
-      <h2 class="text-xl mb-4">Sell Your Produce</h2>
-     
-      <label class="block mb-2">Product Name</label>
-      <input type="text" id="title" placeholder="e.g., Fresh Tomatoes" class="form-input" required>
+<body class="bg-gray-50 text-gray-800">
 
-      <label class="block mb-2 mt-4">Description</label>
-      <textarea id="description" placeholder="Describe quality, quantity..." rows="3" class="form-input" required></textarea>
+<!-- HEADER -->
+<header class="bg-primary text-white shadow sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <h1 class="text-2xl font-bold">Field2Market</h1>
+    <nav class="space-x-6">
+      <a href="index.html" class="hover:text-accent">Home</a>
+      <a href="listings.html" class="hover:text-accent">Browse Produce</a>
+      <a href="add-listings.html" class="bg-accent text-black px-4 py-2 rounded font-semibold">
+        + Add Listing
+      </a>
+    </nav>
+  </div>
+</header>
 
-      <label class="block mb-2 mt-4">Price (ZAR)</label>
-      <input type="number" id="price" placeholder="50.00" step="0.01" class="form-input" required>
+<!-- HERO -->
+<section class="bg-white py-16">
+  <div class="max-w-4xl mx-auto px-6 text-center">
+    <h2 class="text-4xl font-extrabold mb-4">
+      Sell Your Fresh Produce 🌱
+    </h2>
+    <p class="text-gray-600">
+      Post your produce and connect directly with buyers in your community.
+    </p>
+  </div>
+</section>
 
-      <label class="block mb-2 mt-4">Location</label>
-      <input type="text" id="location" placeholder="Village or town" class="form-input" required>
+<!-- FORM -->
+<main class="max-w-3xl mx-auto px-6 pb-20">
+  <form id="listingForm" class="bg-white p-8 rounded shadow space-y-5">
 
-      <label class="block mb-2 mt-4">Product Photo</label>
-      <input type="file" id="photo" accept="image/*" class="form-input" required>
+    <div>
+      <label class="font-semibold">Farmer Name</label>
+      <input id="farmer" required placeholder="e.g. Baba Jobe Sthole"
+        class="w-full border rounded px-4 py-2 mt-1"/>
+    </div>
 
-      <button type="submit" class="mt-6 w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">Post Listing</button>
-    </form>
-  </main>
+    <div>
+      <label class="font-semibold">Product Name</label>
+      <input id="title" required placeholder="e.g. Fresh Tomatoes"
+        class="w-full border rounded px-4 py-2 mt-1"/>
+    </div>
 
-  <script type="module">
-    import { initializeApp } from 'firebase/app';
-    import { getFirestore, collection, addDoc } from 'firebase/firestore';
-    import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+    <div>
+      <label class="font-semibold">Category</label>
+      <select id="category" required
+        class="w-full border rounded px-4 py-2 mt-1">
+        <option value="">Select category</option>
+        <option>Vegetables</option>
+        <option>Fruits</option>
+        <option>Grains</option>
+        <option>Eggs</option>
+        <option>Meat</option>
+      </select>
+    </div>
 
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
+    <div>
+      <label class="font-semibold">Price</label>
+      <input id="price" required placeholder="e.g. R50 / 5kg"
+        class="w-full border rounded px-4 py-2 mt-1"/>
+    </div>
+
+    <div>
+      <label class="font-semibold">Location</label>
+      <input id="location" required placeholder="Village, Province"
+        class="w-full border rounded px-4 py-2 mt-1"/>
+    </div>
+
+    <div>
+      <label class="font-semibold">WhatsApp OR Mobile Number</label>
+      <input id="phone" required placeholder="+277xxxxxxxx"
+        class="w-full border rounded px-4 py-2 mt-1"/>
+    </div>
+
+    <div>
+      <label class="font-semibold">Product Image</label>
+      <input id="image" type="file" accept="image/*" required
+        class="w-full border rounded px-4 py-2 mt-1"/>
+    </div>
+
+    <button
+      type="submit"
+      class="w-full bg-primary text-white py-3 rounded font-bold hover:bg-green-700">
+      Post Listing 
+    </button>
+
+  </form>
+</main>
+
+<!-- SCRIPT -->
+<script>
+const form = document.getElementById("listingForm");
+
+form.addEventListener("submit", e => {
+  e.preventDefault();
+
+  const reader = new FileReader();
+  const imageFile = document.getElementById("image").files[0];
+
+  reader.onload = () => {
+    const newListing = {
+      title: title.value,
+      farmer: farmer.value,
+      category: category.value,
+      price: price.value,
+      location: location.value,
+      phone: phone.value,
+      image: reader.result
     };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const storage = getStorage(app);
+    const listings = JSON.parse(localStorage.getItem("field2marketListings")) || [];
+    listings.push(newListing);
+    localStorage.setItem("field2marketListings", JSON.stringify(listings));
 
-    document.getElementById('listing-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-     
-      const title = document.getElementById('title').value;
-      const description = document.getElementById('description').value;
-      const price = parseFloat(document.getElementById('price').value);
-      const location = document.getElementById('location').value;
-      const photoFile = document.getElementById('photo').files[0];
+    alert("✅ Listing posted successfully!");
+    window.location.href = "listings.html";
+  };
 
-      // Upload photo to Firebase Storage
-      const storageRef = ref(storage, `products/${photoFile.name}`);
-      await uploadBytes(storageRef, photoFile);
-      const photoURL = await getDownloadURL(storageRef);
+  reader.readAsDataURL(imageFile);
+});
+</script>
 
-      // Save listing to Firestore
-      await addDoc(collection(db, "listings"), {
-        title,
-        description,
-        price,
-        location,
-        imageUrl: photoURL,
-        createdAt: new Date()
-      });
-
-      alert("Listing posted successfully!");
-      window.location.href = "listings.html";
-    });
-  </script>
 </body>
 </html>

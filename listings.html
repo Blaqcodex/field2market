@@ -1,126 +1,231 @@
 <!DOCTYPE html>
-<html lang ="en">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Field2Market - Connecting Farmers to Markets</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Browse Produce | Field2Market</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#15803d',
+            accent: '#facc15'
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body class="bg-gray-50">
-    <header class="bg-green-600 text-white p-4">
-        <div class="container mx-auto flex justify-between">
-            <h1 class="text-2xl font-bold">Field2Market<h1>
-            <nav>
-                <a href="index.html" class="mr-4">Home</a>
-                <a href="listings.html" class="mr-4">Browse Produce</a>
-                <a href="add-listings.html" class="bg-yellow-400 text-black px-3 py-1 rounded">+ Add Listing</a>
-            </nav>
+
+<body class="bg-gray-50 text-gray-800">
+
+<!-- HEADER -->
+<header class="bg-primary text-white shadow sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <h1 class="text-2xl font-bold">Field2Market</h1>
+    <nav class="space-x-6">
+      <a href="index.html" class="hover:text-accent">Home</a>
+      <a href="listings.html" class="text-accent font-semibold">Browse Produce</a>
+      <a href="add-listings.html" class="bg-accent text-black px-4 py-2 rounded font-semibold">
+        + Add Listing
+      </a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="bg-white py-16">
+  <div class="max-w-7xl mx-auto px-6 text-center">
+    <h2 class="text-4xl font-extrabold mb-4">
+      Browse Fresh Produce
+    </h2>
+    <p class="text-gray-600">
+      Filter by farmer, category, or location — deal directly with producers.
+    </p>
+  </div>
+</section>
+
+<!-- FILTERS -->
+<section class="max-w-7xl mx-auto px-6 mb-10">
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 bg-white p-6 rounded shadow">
+
+    <input id="searchLocation" type="text"
+      placeholder="Search by location..."
+      class="border rounded px-4 py-2 w-full"/>
+
+    <select id="filterFarmer" class="border rounded px-4 py-2">
+      <option value="">All Farmers</option>
+    </select>
+
+    <select id="filterCategory" class="border rounded px-4 py-2">
+      <option value="">All Categories</option>
+      <option value="Vegetables">Vegetables</option>
+      <option value="Grains">Grains</option>
+      <option value="Eggs">Eggs</option>
+      <option value="Meat">Meat</option>
+    </select>
+
+    <button onclick="resetFilters()"
+      class="bg-primary text-white rounded px-4 py-2 hover:bg-green-700">
+      Reset Filters
+    </button>
+
+  </div>
+</section>
+
+<!-- LISTINGS -->
+<main class="max-w-7xl mx-auto px-6 pb-20">
+  <div id="listings" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+</main>
+
+<!-- SCRIPT -->
+<script>
+const listingsData = [
+  {
+    title: "Fresh Tomatoes",
+    farmer: "Baba Jobe Sthole",
+    category: "Vegetables",
+    price: "R50 / 5kg",
+    location: "Nondweni, KwaZulu-Natal",
+    phone: "27710000001",
+    image: "img/tomato.jpg"
+  },
+  {
+    title: "Crisp Onions",
+    farmer: "Ayanda Nkwanyana",
+    category: "Vegetables",
+    price: "R15 / 2kg",
+    location: "Nondweni, KwaZulu-Natal",
+    phone: "27710000002",
+    image: "img/onion.jpg"
+  },
+  {
+    title: "Large Potatoes",
+    farmer: "Ayanda Nkwanyana",
+    category: "Vegetables",
+    price: "R10 / 1kg",
+    location: "Nondweni, KwaZulu-Natal",
+    phone: "27710000002",
+    image: "img/potato.jpg"
+  },
+  {
+    title: "Yummy Mealies",
+    farmer: "Bongani Phakathi",
+    category: "Grains",
+    price: "R10 each",
+    location: "Nqutu, KwaZulu-Natal",
+    phone: "27710000003",
+    image: "img/Crop.jpg"
+  },
+  {
+    title: "Green Peppers",
+    farmer: "Thabiso Nene",
+    category: "Vegetables",
+    price: "R3 each",
+    location: "Nqutu, KwaZulu-Natal",
+    phone: "27710000004",
+    image: "img/pepper.jpg"
+  }
+];
+
+const listingsEl = document.getElementById("listings");
+const farmerFilter = document.getElementById("filterFarmer");
+const categoryFilter = document.getElementById("filterCategory");
+const searchLocation = document.getElementById("searchLocation");
+
+/* Populate farmer dropdown */
+[...new Set(listingsData.map(l => l.farmer))].forEach(farmer => {
+  const opt = document.createElement("option");
+  opt.value = farmer;
+  opt.textContent = farmer;
+  farmerFilter.appendChild(opt);
+});
+
+/* Render cards */
+function renderListings(data) {
+  listingsEl.innerHTML = "";
+  if (!data.length) {
+    listingsEl.innerHTML = `<p class="col-span-full text-center text-gray-500">No results found.</p>`;
+    return;
+  }
+
+  data.forEach(item => {
+    listingsEl.innerHTML += `
+      <div class="bg-white rounded shadow hover:shadow-lg transition">
+        <img src="${item.image}" class="h-48 w-full object-cover rounded-t">
+        <div class="p-4">
+          <h3 class="text-xl font-bold">${item.title}</h3>
+
+          <button onclick="filterByFarmer('${item.farmer}')"
+            class="text-primary font-semibold hover:underline">
+            ${item.farmer}
+          </button>
+
+          <p class="text-sm text-gray-500">${item.location}</p>
+          <p class="text-green-600 font-bold mt-2">${item.price}</p>
+
+          <div class="mt-4 flex gap-2">
+            <a href="https://wa.me/${item.phone}"
+              target="_blank"
+              class="flex-1 bg-primary text-white text-center py-2 rounded">
+              WhatsApp
+            </a>
+            <button onclick="copyNumber('${item.phone}')"
+              class="flex-1 border border-primary text-primary py-2 rounded">
+              Copy #
+            </button>
+          </div>
         </div>
-    </header>
-    <main class="container mx-auto mt-8">
-        <section class="text-center mb-12">
-            <h2 class="text-3xl font-semibold">Fresh From Your Village, To Your Table</h2>
-            <p class="text-gray-600 mt-2">No middlemen. Fair prices. Real Farmers.</p>
-        </section>
+      </div>
+    `;
+  });
+}
 
-        <!-- Featured Listings Grid (populated by JS later)-->
+/* Filtering logic */
+function applyFilters() {
+  const farmer = farmerFilter.value;
+  const category = categoryFilter.value;
+  const location = searchLocation.value.toLowerCase();
 
-        <div id="feature-listings" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Sample card -->
-            <div class="bg-white shadow rounded p-4">
-                <img src="img/tomato.jpg" alt="Tomatoes" class="w-full h-48 object-cover rounded">
-                <h3 class="mt-2 text-xl">Fresh Tomatoes</h3>
-                <p class="text-gray-600">Farmer: Baba Jobe Sthole</p>
-                <p class="text-green-600 font-bold">R50 / 5kg</p>
-                <p class="text-sm text-gray-500">Nondweni, KwaZulu-Natal</p>
-                <button class="mt-2 w-full bg-green-500 text-white py-2 rounded">Contact Farmer</button>
+  const filtered = listingsData.filter(item =>
+    (!farmer || item.farmer === farmer) &&
+    (!category || item.category === category) &&
+    item.location.toLowerCase().includes(location)
+  );
 
-            </div>
+  renderListings(filtered);
+}
 
-            <!--Onion listing-->
-            <div class="bg-white shadow rounded p-4">
-                <img src="img/onion.jpg" alt="Crisp Onions" class="w-full h-48 object-cover rounded">
-                <h3 class="mt-2 text-xl">Crisp Onions</h3>
-                <p class="text-gray-600">Farmer: Ayanda Nkwanyana</p>
-                <p class="text-green-600 font-bold">R15 / 2kg</p>
-                <p class="text-sm text-gray-500">Nondweni, KwaZulu-Natal</p>
-                <button class="mt-2 w-full bg-green-500 text-white py-2 rounded">Contact Farmer</button>
-            </div>
+function filterByFarmer(name) {
+  farmerFilter.value = name;
+  applyFilters();
+}
 
-             <!--Potato listing-->
-            <div class="bg-white shadow rounded p-4">
-                <img src="img/potato.jpg" alt="Potatoes" class="w-full h-48 object-cover rounded">
-                <h3 class="mt-2 text-xl">Large Potatoes</h3>
-                <p class="text-gray-600">Farmer: Ayanda Nkwanyana</p>
-                <p class="text-green-600 font-bold">R10 / 1kg</p>
-                <p class="text-sm text-gray-500">Nondweni, KwaZulu-Natal</p>
-                <button class="mt-2 w-full bg-green-500 text-white py-2 rounded">Contact Farmer</button>
-            </div>
+function resetFilters() {
+  farmerFilter.value = "";
+  categoryFilter.value = "";
+  searchLocation.value = "";
+  renderListings(listingsData);
+}
 
-             <!--Cabbages listing-->
-            <div class="bg-white shadow rounded p-4">
-                <img src="img/cabbages.jpg" alt="Medium Cabbages" class="w-full h-48 object-cover rounded">
-                <h3 class="mt-2 text-xl">Medium Cabbages</h3>
-                <p class="text-gray-600">Farmer: Baba Jobe Sthole</p>
-                <p class="text-green-600 font-bold">R15 each</p>
-                <p class="text-sm text-gray-500">Nondweni, KwaZulu-Natal</p>
-                <button class="mt-2 w-full bg-green-500 text-white py-2 rounded">Contact Farmer</button>
-            </div>
+function copyNumber(number) {
+  navigator.clipboard.writeText(number);
+  alert("Farmer contact number copied!");
+}
 
-             <!--Tomato listing-->
-            <div class="bg-white shadow rounded p-4">
-                <img src="img/tomato2.jpg" alt="Fresh Tomatoes" class="w-full h-48 object-cover rounded">
-                <h3 class="mt-2 text-xl">Juicy Tomatoes</h3>
-                <p class="text-gray-600">Farmer: Ayanda Nkwanyana</p>
-                <p class="text-green-600 font-bold">R25 / 3kg</p>
-                <p class="text-sm text-gray-500">Nondweni, KwaZulu-Natal</p>
-                <button class="mt-2 w-full bg-green-500 text-white py-2 rounded">Contact Farmer</button>
-            </div>
+farmerFilter.addEventListener("change", applyFilters);
+categoryFilter.addEventListener("change", applyFilters);
+searchLocation.addEventListener("input", applyFilters);
 
-             <!--Cabbage listing-->
-            <div class="bg-white shadow rounded p-4">
-                <img src="img/cabbage.jpg" alt="Large cabbages" class="w-full h-48 object-cover rounded">
-                <h3 class="mt-2 text-xl">Large Cabbages</h3>
-                <p class="text-gray-600">Farmer: Ayanda Nkwanyana</p>
-                <p class="text-green-600 font-bold">R20 each</p>
-                <p class="text-sm text-gray-500">Nondweni, KwaZulu-Natal</p>
-                <button class="mt-2 w-full bg-green-500 text-white py-2 rounded">Contact Farmer</button>
-            </div>
+/* Initial render */
+renderListings(listingsData);
+</script>
 
-             <!--Green pepper listing-->
-            <div class="bg-white shadow rounded p-4">
-                <img src="img/pepper.jpg" alt="Small Green Peppers" class="w-full h-48 object-cover rounded">
-                <h3 class="mt-2 text-xl">Small Green Peppers</h3>
-                <p class="text-gray-600">Farmer: Thabiso Nene</p>
-                <p class="text-green-600 font-bold">R3 each</p>
-                <p class="text-sm text-gray-500">Nqutu, KwaZulu-Natal</p>
-                <button class="mt-2 w-full bg-green-500 text-white py-2 rounded">Contact Farmer</button>
-            </div>
-
-             <!--Crop listing-->
-            <div class="bg-white shadow rounded p-4">
-                <img src="img/Crop.jpg" alt="Yummy Mealies" class="w-full h-48 object-cover rounded">
-                <h3 class="mt-2 text-xl">Yummy Mealies</h3>
-                <p class="text-gray-600">Farmer: Bongani Phakathi</p>
-                <p class="text-green-600 font-bold">R10 each</p>
-                <p class="text-sm text-gray-500">Nqutu, KwaZulu-Natal</p>
-                <button class="mt-2 w-full bg-green-500 text-white py-2 rounded">Contact Farmer</button>
-            </div>
-
-             <!--Onion listing-->
-            <div class="bg-white shadow rounded p-4">
-                <img src="img/red onions.jpg" alt="Crisp Onions" class="w-full h-48 object-cover rounded">
-                <h3 class="mt-2 text-xl">Red Onions</h3>
-                <p class="text-gray-600">Farmer: Bongani Phakathi</p>
-                <p class="text-green-600 font-bold">R25 / 2kg</p>
-                <p class="text-sm text-gray-500">Nqutu, KwaZulu-Natal</p>
-                <button class="mt-2 w-full bg-green-500 text-white py-2 rounded">Contact Farmer</button>
-            </div>
-        </div>
-    </main>
-
-    <script src="js/main.js"></script>
 </body>
 </html>
 
