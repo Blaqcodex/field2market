@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Listing } from '../types';
 
 interface Props {
@@ -32,6 +33,14 @@ export default function ListingCard({ listing }: Props) {
           >
             Copy number
           </button>
+        </div>
+        <div className="mt-5">
+          <Link
+            to={`/listings/${listing.id}`}
+            className="inline-flex w-full items-center justify-center rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+          >
+            View details
+          </Link>
         </div>
       </div>
     </article>

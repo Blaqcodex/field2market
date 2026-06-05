@@ -3,6 +3,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import Listings from './pages/Listings';
+import ListingDetail from './pages/ListingDetail';
 import AddListing from './pages/AddListing';
 import Login from './pages/Login';
 
@@ -23,6 +24,7 @@ export default function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/listings" element={<Listings />} />
+          <Route path="/listings/:id" element={<ListingDetail />} />
           <Route
             path="/add"
             element={

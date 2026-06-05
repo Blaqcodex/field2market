@@ -1,7 +1,9 @@
 import {
   addDoc,
   collection,
+  doc,
   DocumentData,
+  getDoc,
   getDocs,
   QueryDocumentSnapshot,
   serverTimestamp,
@@ -47,6 +49,17 @@ export async function fetchListings(): Promise<Listing[]> {
   return snapshot.docs
     .map(listingFromDoc)
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+}
+
+export async function fetchListingById(id: string): Promise<Listing> {
+  const docRef = doc(db, 'listings', id);
+  const snapshot = await getDoc(docRef);
+
+  if (!snapshot.exists()) {
+    throw new Error('Listing not found');
+  }
+
+  return listingFromDoc(snapshot as QueryDocumentSnapshot<DocumentData>);
 }
 
 export type CreateListingPayload = Omit<Listing, 'id' | 'createdAt'>;
