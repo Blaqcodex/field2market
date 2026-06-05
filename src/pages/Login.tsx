@@ -32,6 +32,9 @@ export default function Login() {
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-0 top-10 h-36 w-36 rounded-full bg-emerald-400/20 blur-3xl animate-float-slow" />
         <div className="absolute right-6 top-20 h-28 w-28 rounded-full bg-cyan-400/15 blur-3xl animate-pulse-slow" />
+        <div className="absolute inset-x-0 top-12 left-1/2 -translate-x-1/2 h-28 w-28 rounded-full border border-cyan-300/30 bg-cyan-300/10 shadow-[0_0_60px_rgba(56,189,248,0.18)] animate-radar-sweep" />
+        <div className="absolute bottom-10 left-10 hidden h-24 w-24 rounded-full border border-emerald-300/30 bg-emerald-300/10 blur-2xl animate-seed-burst xl:block" />
+        <div className="absolute bottom-8 right-12 h-28 w-28 rounded-full border border-amber-300/30 bg-amber-300/10 blur-2xl animate-float-slow" />
         <div className="absolute inset-x-6 top-0 h-full rounded-[2.5rem] bg-[radial-gradient(circle_at_top_left,rgba(20,83,50,0.16),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(16,185,129,0.08),transparent_32%)]" />
         <div className="absolute inset-x-0 top-1/2 h-60 bg-[radial-gradient(circle,rgba(14,165,233,0.12),transparent_80%)] blur-2xl" />
         <div className="absolute inset-x-0 bottom-10 h-24 bg-[linear-gradient(90deg,rgba(74,222,128,.08)_0%,transparent_20%,transparent_80%,rgba(56,189,248,.08)_100%)]" />
@@ -53,6 +56,10 @@ export default function Login() {
           <div className="absolute right-4 top-4 z-20 flex items-center gap-2 rounded-full border border-cyan-300/30 bg-slate-950/80 px-3 py-2 text-xs uppercase tracking-[0.35em] text-cyan-200 shadow-[0_0_40px_rgba(56,189,248,0.15)]">
             <span className="h-2.5 w-2.5 rounded-full bg-cyan-300 shadow-[0_0_12px_rgba(56,189,248,0.6)] animate-pulse-slow" />
             <span>Drone scan active</span>
+          </div>
+
+          <div className="absolute left-0 top-16 h-24 w-full overflow-hidden">
+            <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-cyan-200/0 via-cyan-200/20 to-cyan-200/0 opacity-60 animate-shimmer-line" />
           </div>
 
           <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-cyan-300/90 via-emerald-300/75 to-amber-300/90 opacity-90 blur-xl animate-scan-beam" />
