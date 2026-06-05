@@ -180,6 +180,15 @@ The repository uses meaningful, incremental commits for easy tracking:
 5. `feat: add Firestore listing helpers, improve listing validation, and fix env typing`
 6. `feat: add listing detail page, card navigation, and Firestore document fetch helper`
 7. `feat: add Firebase security rules, user dashboard, and MyListings management page`
+8. `fix: add hosting configuration to firebase.json for proper Firebase Hosting deployment`
+
+## 🧰 Deployment Challenges & Fixes
+
+This project faced specific deployment issues during the Firebase setup and deployment process:
+
+- **Missing `firebase.json` hosting configuration**: The `firebase.json` file initially lacked a hosting block, which prevented a proper Firebase Hosting deployment. This was fixed by adding the `hosting` section with SPA rewrites and cache headers.
+- **Local Firebase config created too late**: `.env.local` was not present during the first production build, so the deployed bundle did not contain the Firebase API key and app configuration. The issue was resolved by creating `.env.local`, rebuilding with `npm run build`, and redeploying.
+- **Firebase Storage setup confusion**: The project showed a generated app and bucket, but the console workflow was not clearly exposing the Storage setup button. This was resolved by validating the bucket name in the Firebase app config and then using the existing bucket with the deployed site.
 
 ## 📋 Available Scripts
 
