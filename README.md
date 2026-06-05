@@ -87,6 +87,8 @@ VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
 VITE_FIREBASE_APP_ID=your_app_id
 ```
 
+> Important: Vite embeds these values at build time. If the deployed site shows a Firebase auth error such as `auth/configuration-not-found`, recreate or update `.env.local`, then rebuild with `npm run build` before `firebase deploy`.
+
 ### 4. Set up Firebase Firestore & Storage
 - Enable Firestore Database (start in test mode, then apply rules)
 - Enable Cloud Storage (start in test mode, then apply rules)
