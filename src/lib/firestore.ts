@@ -5,9 +5,11 @@ import {
   DocumentData,
   getDoc,
   getDocs,
+  query,
   QueryDocumentSnapshot,
   serverTimestamp,
-  Timestamp
+  Timestamp,
+  where
 } from 'firebase/firestore';
 import { db } from './firebase';
 import { Listing } from '../types';
@@ -60,6 +62,14 @@ export async function fetchListingById(id: string): Promise<Listing> {
   }
 
   return listingFromDoc(snapshot as QueryDocumentSnapshot<DocumentData>);
+}
+
+export async function fetchUserListings(userId: string): Promise<Listing[]> {
+  const q = query(listingsCollection, where('owner', '==', userId));
+  const snapshot = await getDocs(q);
+  return snapshot.docs
+    .map(listingFromDoc)
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 }
 
 export type CreateListingPayload = Omit<Listing, 'id' | 'createdAt'>;

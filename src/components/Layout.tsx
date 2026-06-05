@@ -29,6 +29,12 @@ export default function Layout() {
             ))}
             {user ? (
               <>
+                <Link
+                  to="/my-listings"
+                  className={`transition hover:text-slate-900 ${location.pathname === '/my-listings' ? 'text-slate-900' : ''}`}
+                >
+                  My listings
+                </Link>
                 <Link to="/add" className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-slate-800">
                   Add Listing
                 </Link>

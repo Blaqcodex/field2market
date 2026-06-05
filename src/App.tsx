@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Listings from './pages/Listings';
 import ListingDetail from './pages/ListingDetail';
 import AddListing from './pages/AddListing';
+import MyListings from './pages/MyListings';
 import Login from './pages/Login';
 
 function ProtectedRoute({ children }: { children: JSX.Element }) {
@@ -25,6 +26,14 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/listings" element={<Listings />} />
           <Route path="/listings/:id" element={<ListingDetail />} />
+          <Route
+            path="/my-listings"
+            element={
+              <ProtectedRoute>
+                <MyListings />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/add"
             element={

@@ -1,0 +1,11 @@
+{
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "storage": [
+    {
+      "bucket": "${FIREBASE_STORAGE_BUCKET}",
+      "rules": "firestore.rules"
+    }
+  ]
+}
