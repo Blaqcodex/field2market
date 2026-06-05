@@ -24,6 +24,64 @@ textarea {
   font: inherit;
 }
 
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-14px) scale(1.02);
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.65;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes scan-lines {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 60px;
+  }
+}
+
+@keyframes plant-sprout {
+  0%, 100% {
+    transform: translateY(0) scale(0.98);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-6px) scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 7s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 5.2s ease-in-out infinite;
+}
+
+.animate-scan-lines {
+  animation: scan-lines 5s linear infinite;
+}
+
+.animate-plant-sprout {
+  animation: plant-sprout 4.2s ease-in-out infinite;
+}
+
+.shadow-glow {
+  box-shadow: 0 20px 70px rgba(34, 197, 94, 0.14);
+}
+
 ::selection {
   background: #facc15;
   color: #0f172a;
