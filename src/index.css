@@ -1,0 +1,177 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background: radial-gradient(circle at top, rgba(56, 189, 248, 0.12), transparent 35%),
+    linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-14px) scale(1.02);
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.65;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes scan-lines {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 60px;
+  }
+}
+
+@keyframes plant-sprout {
+  0%, 100% {
+    transform: translateY(0) scale(0.98);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-6px) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes scan-beam {
+  0% {
+    transform: translateX(-110%);
+    opacity: 0.1;
+  }
+  50% {
+    transform: translateX(110%);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateX(210%);
+    opacity: 0.1;
+  }
+}
+
+@keyframes grid-wave {
+  0% {
+    background-position: 0 0, 0 0;
+  }
+  100% {
+    background-position: 36px 36px, -36px -36px;
+  }
+}
+
+@keyframes radar-sweep {
+  0% {
+    transform: translateX(-50%) rotate(0deg);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateX(-50%) rotate(180deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) rotate(360deg);
+    opacity: 0.8;
+  }
+}
+
+@keyframes seed-burst {
+  0%, 100% {
+    transform: scale(0.94);
+    opacity: 0.6;
+  }
+  25% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.98);
+    opacity: 0.8;
+  }
+}
+
+@keyframes shimmer-line {
+  0% {
+    transform: translateX(-120%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(0);
+    opacity: 0.35;
+  }
+  100% {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 7s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 5.2s ease-in-out infinite;
+}
+
+.animate-scan-lines {
+  animation: scan-lines 5s linear infinite;
+}
+
+.animate-scan-beam {
+  animation: scan-beam 3.8s ease-in-out infinite;
+}
+
+.animate-grid-wave {
+  animation: grid-wave 12s linear infinite;
+}
+
+.animate-radar-sweep {
+  animation: radar-sweep 6.5s linear infinite;
+}
+
+.animate-seed-burst {
+  animation: seed-burst 5.5s ease-in-out infinite;
+}
+
+.animate-shimmer-line {
+  animation: shimmer-line 2.4s ease-in-out infinite;
+}
+
+.animate-plant-sprout {
+  animation: plant-sprout 4.2s ease-in-out infinite;
+}
+
+.shadow-glow {
+  box-shadow: 0 20px 70px rgba(34, 197, 94, 0.14);
+}
+
+::selection {
+  background: #facc15;
+  color: #0f172a;
+}
