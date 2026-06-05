@@ -50,10 +50,16 @@ export default function Login() {
         </div>
 
         <div className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-slate-950/5 px-6 py-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.03)]">
-          <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-emerald-300 via-cyan-400 to-amber-300 opacity-80 blur-xl" />
+          <div className="absolute right-4 top-4 z-20 flex items-center gap-2 rounded-full border border-cyan-300/30 bg-slate-950/80 px-3 py-2 text-xs uppercase tracking-[0.35em] text-cyan-200 shadow-[0_0_40px_rgba(56,189,248,0.15)]">
+            <span className="h-2.5 w-2.5 rounded-full bg-cyan-300 shadow-[0_0_12px_rgba(56,189,248,0.6)] animate-pulse-slow" />
+            <span>Drone scan active</span>
+          </div>
+
+          <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-cyan-300/90 via-emerald-300/75 to-amber-300/90 opacity-90 blur-xl animate-scan-beam" />
           <div className="absolute inset-x-6 top-8 h-[1px] bg-white/10 opacity-60 animate-scan-lines" />
-          <div className="absolute left-5 top-24 h-28 w-28 rounded-full border border-cyan-200/10 bg-cyan-300/10 blur-2xl animate-float-slow" />
-          <div className="absolute right-6 bottom-10 h-28 w-28 rounded-full border border-emerald-200/10 bg-emerald-300/10 blur-2xl animate-pulse-slow" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.08),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(22,163,74,0.08),transparent_35%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(180deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[length:24px_24px] opacity-25 animate-grid-wave" />
+
           <form onSubmit={handleSubmit} className="relative space-y-6">
             <label className="block">
               <span className="text-sm font-semibold text-slate-700">Email</span>
@@ -80,16 +86,26 @@ export default function Login() {
 
             <button
               type="submit"
-              className="w-full rounded-full bg-primary px-6 py-3 text-base font-semibold text-white transition hover:bg-slate-900"
+              className="relative overflow-hidden rounded-full bg-primary px-6 py-3 text-base font-semibold text-white transition hover:bg-slate-900"
             >
-              {isRegistering ? 'Create account' : 'Sign in'}
+              <span className="absolute inset-0 bg-gradient-to-r from-white/10 via-white/5 to-white/10 opacity-0 transition duration-500 hover:opacity-100" />
+              <span className="relative z-10">{isRegistering ? 'Create account' : 'Sign in'}</span>
             </button>
           </form>
 
           <div className="mt-6 grid grid-cols-3 gap-3 text-xs text-slate-500">
-            <span className="rounded-3xl border border-white/10 bg-white/10 px-3 py-2 shadow-glow animate-plant-sprout">🌾 Crop overlay</span>
-            <span className="rounded-3xl border border-white/10 bg-white/10 px-3 py-2 shadow-glow animate-plant-sprout">🛰️ Soil scan</span>
-            <span className="rounded-3xl border border-white/10 bg-white/10 px-3 py-2 shadow-glow animate-plant-sprout">✨ Growth AI</span>
+            <span className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/10 px-3 py-2 shadow-glow animate-plant-sprout">
+              <span className="relative z-10">🌾 Crop overlay</span>
+              <span className="absolute inset-0 bg-gradient-to-r from-cyan-300/20 via-transparent to-amber-300/20 opacity-0 transition duration-500 group-hover:opacity-100" />
+            </span>
+            <span className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/10 px-3 py-2 shadow-glow animate-plant-sprout">
+              <span className="relative z-10">🛰️ Soil scan</span>
+              <span className="absolute inset-0 bg-gradient-to-r from-cyan-300/20 via-transparent to-amber-300/20 opacity-0 transition duration-500 group-hover:opacity-100" />
+            </span>
+            <span className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/10 px-3 py-2 shadow-glow animate-plant-sprout">
+              <span className="relative z-10">✨ Growth AI</span>
+              <span className="absolute inset-0 bg-gradient-to-r from-cyan-300/20 via-transparent to-amber-300/20 opacity-0 transition duration-500 group-hover:opacity-100" />
+            </span>
           </div>
         </div>
 
