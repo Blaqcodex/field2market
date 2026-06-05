@@ -36,10 +36,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       user,
       loading,
       signIn: async (email: string, password: string) => {
-        await signInWithEmailAndPassword(auth, email, password);
+        try {
+          await signInWithEmailAndPassword(auth, email, password);
+          console.log('Sign in successful:', email);
+        } catch (error: any) {
+          console.error('Sign in error:', error.code, error.message);
+          throw error;
+        }
       },
       signUp: async (email: string, password: string) => {
-        await createUserWithEmailAndPassword(auth, email, password);
+        try {
+          await createUserWithEmailAndPassword(auth, email, password);
+          console.log('Sign up successful:', email);
+        } catch (error: any) {
+          console.error('Sign up error:', error.code, error.message);
+          throw error;
+        }
       },
       signOutUser: async () => {
         await signOut(auth);
