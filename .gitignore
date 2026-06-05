@@ -1,6 +1,7 @@
 txt files/
 .github/
 .firebase.js/
+.firebase/
 node_modules
 .env
 .env.local
