@@ -62,6 +62,30 @@ textarea {
   }
 }
 
+@keyframes scan-beam {
+  0% {
+    transform: translateX(-110%);
+    opacity: 0.1;
+  }
+  50% {
+    transform: translateX(110%);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateX(210%);
+    opacity: 0.1;
+  }
+}
+
+@keyframes grid-wave {
+  0% {
+    background-position: 0 0, 0 0;
+  }
+  100% {
+    background-position: 36px 36px, -36px -36px;
+  }
+}
+
 .animate-float-slow {
   animation: float-slow 7s ease-in-out infinite;
 }
@@ -72,6 +96,14 @@ textarea {
 
 .animate-scan-lines {
   animation: scan-lines 5s linear infinite;
+}
+
+.animate-scan-beam {
+  animation: scan-beam 3.8s ease-in-out infinite;
+}
+
+.animate-grid-wave {
+  animation: grid-wave 12s linear infinite;
 }
 
 .animate-plant-sprout {
