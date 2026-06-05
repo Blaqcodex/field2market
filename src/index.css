@@ -86,6 +86,51 @@ textarea {
   }
 }
 
+@keyframes radar-sweep {
+  0% {
+    transform: translateX(-50%) rotate(0deg);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateX(-50%) rotate(180deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) rotate(360deg);
+    opacity: 0.8;
+  }
+}
+
+@keyframes seed-burst {
+  0%, 100% {
+    transform: scale(0.94);
+    opacity: 0.6;
+  }
+  25% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.98);
+    opacity: 0.8;
+  }
+}
+
+@keyframes shimmer-line {
+  0% {
+    transform: translateX(-120%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(0);
+    opacity: 0.35;
+  }
+  100% {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+}
+
 .animate-float-slow {
   animation: float-slow 7s ease-in-out infinite;
 }
@@ -104,6 +149,18 @@ textarea {
 
 .animate-grid-wave {
   animation: grid-wave 12s linear infinite;
+}
+
+.animate-radar-sweep {
+  animation: radar-sweep 6.5s linear infinite;
+}
+
+.animate-seed-burst {
+  animation: seed-burst 5.5s ease-in-out infinite;
+}
+
+.animate-shimmer-line {
+  animation: shimmer-line 2.4s ease-in-out infinite;
 }
 
 .animate-plant-sprout {
