@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home | Field2Market</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#15803d',
+            accent: '#facc15'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+<!-- HEADER -->
+<header class="bg-primary text-white shadow">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between">
+    <h1 class="text-2xl font-bold">Field2Market</h1>
+    <div>
+      <span id="userLabel" class="mr-4 font-semibold"></span>
+      <button onclick="logout()" class="bg-accent text-black px-4 py-2 rounded">
+        Logout
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- CONTENT -->
+<main class="flex-grow max-w-7xl mx-auto px-6 py-16 text-center">
+  <h2 class="text-4xl font-extrabold mb-4">
+    Fresh From Village to Table 🌾
+  </h2>
+  <p class="text-gray-600 mb-10">
+    Browse produce or manage your own listings.
+  </p>
+
+  <div class="flex justify-center gap-4">
+    <a href="listings.html"
+      class="bg-primary text-white px-6 py-3 rounded font-bold">
+      Browse Produce
+    </a>
+    <a href="add-listings.html"
+      class="border border-primary text-primary px-6 py-3 rounded font-bold">
+      Add Listing
+    </a>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-gray-900 text-gray-400 py-6 text-center text-sm">
+  © 2026 Field2Market · Built with ❤️ for farmers
+</footer>
+
+<script>
+const user = localStorage.getItem("field2marketUser");
+if (!user) window.location.href = "login.html";
+document.getElementById("userLabel").textContent = `Hi, ${user}`;
+
+function logout() {
+  localStorage.removeItem("field2marketUser");
+  window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>
