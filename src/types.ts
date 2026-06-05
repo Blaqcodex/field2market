@@ -8,4 +8,5 @@ export interface Listing {
   contact: string;
   imageUrl: string;
   createdAt: string;
+  owner?: string;
 }

@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { useEffect, useMemo, useState } from 'react';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { db, storage } from '../lib/firebase';
+import { createListing, CreateListingPayload } from '../lib/firestore';
+import { storage } from '../lib/firebase';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -19,8 +19,25 @@ export default function AddListing() {
     contact: ''
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+
+  const formattedContact = useMemo(() => form.contact.trim(), [form.contact]);
+  const isContactValid = /^\+?\d{10,15}$/.test(formattedContact);
+  const isFormValid = Boolean(form.title && form.price && form.location && formattedContact && imageFile && isContactValid);
+
+  useEffect(() => {
+    if (!imageFile) {
+      setPreviewUrl('');
+      return;
+    }
+
+    const preview = URL.createObjectURL(imageFile);
+    setPreviewUrl(preview);
+
+    return () => URL.revokeObjectURL(preview);
+  }, [imageFile]);
 
   const handleChange = (field: string, value: string) => {
     setForm(prev => ({ ...prev, [field]: value }));
@@ -34,22 +51,31 @@ export default function AddListing() {
       return;
     }
 
+    if (!isContactValid) {
+      setMessage('Please enter a valid contact number with 10 to 15 digits.');
+      return;
+    }
+
     setLoading(true);
-    setMessage('Saving listing…');
+    setMessage('Saving listing...');
 
     try {
       const imageRef = ref(storage, `listings/${Date.now()}-${imageFile.name}`);
       await uploadBytes(imageRef, imageFile);
       const imageUrl = await getDownloadURL(imageRef);
 
-      await addDoc(collection(db, 'listings'), {
-        ...form,
+      const payload: CreateListingPayload = {
+        title: form.title,
+        farmer: form.farmer,
+        category: form.category,
+        price: form.price,
+        location: form.location,
+        contact: formattedContact,
         imageUrl,
-        contact: form.contact.trim(),
-        createdAt: serverTimestamp(),
-        owner: user?.uid
-      });
+        owner: user?.uid ?? ''
+      };
 
+      await createListing(payload);
       navigate('/listings');
     } catch (error) {
       console.error(error);
@@ -159,9 +185,16 @@ export default function AddListing() {
             />
           </label>
 
+          {previewUrl ? (
+            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4">
+              <p className="mb-3 text-sm font-semibold text-slate-700">Image preview</p>
+              <img src={previewUrl} alt="Preview" className="max-h-64 w-full rounded-3xl object-cover" />
+            </div>
+          ) : null}
+
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || !isFormValid}
             className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-base font-semibold text-white transition hover:bg-slate-900 disabled:cursor-not-allowed disabled:bg-slate-400"
           >
             {loading ? 'Posting listing…' : 'Post listing'}

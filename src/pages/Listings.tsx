@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { collection, getDocs, query, where } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+import { fetchListings } from '../lib/firestore';
 import ListingCard from '../components/ListingCard';
 import { Listing } from '../types';
 
@@ -15,9 +14,8 @@ export default function Listings() {
   useEffect(() => {
     async function loadListings() {
       try {
-        const snapshots = await getDocs(query(collection(db, 'listings')));
-        const docs = snapshots.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Listing[];
-        setListings(docs.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
+        const docs = await fetchListings();
+        setListings(docs);
       } catch (error) {
         console.error(error);
       } finally {
